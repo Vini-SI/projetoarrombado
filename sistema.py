@@ -31,17 +31,17 @@ def cadastro():
     nomeC = input("Digite o seu nome(Digite 0 para voltar ao menu): ")
     if nomeC == "0":
             print("Voltando...")
-            sleep(2)
+            sleep(1.5)
             return
     senhaC = input("Digite a sua senha(Digite 0 para voltar ao menu): ")
     if senhaC == "0":
         print("Voltando...")
-        sleep(2)
+        sleep(1.5)
         return
     idade = input("Digite a sua idade(Digite 0 para voltar ao menu): ")
     if idade == "0":
             print("Voltando...")
-            sleep(2)
+            sleep(1.5)
             return
     while not idade.isnumeric():
         print("Digite um idade numerica")
@@ -51,7 +51,7 @@ def cadastro():
         print("Você é de menor, infelizmente não poderá realizar o cadastro")
         return
     with open("Cadastrados.txt", "a", encoding="utf-8") as arquivo:
-        arquivo.write(f"{nomeC.strip()}, {senhaC.strip()}, {idade}\n")
+        arquivo.write(f"{nomeC.strip()} / {senhaC.strip()} / {idade}\n")
     print("Cadastro concluído!")
     return nomeC.strip(), senhaC.strip(), idade
 
@@ -59,7 +59,7 @@ def lerArquivo(nome):
     with open(nome, "r", encoding="utf-8") as arquivo:
         print(arquivo.read())
 
-
+#Login do usuário
 def login():
     print("-" * 20, "Login de usuário", "-" * 20)
 
@@ -77,15 +77,25 @@ def login():
             nomeC = dados[0].strip()
             senhaC = dados[1].strip()
             if nomeL == nomeC and senhaL == senhaC:
-                print(f"Bem-Vindo {nomeC}")
+                print(f"\nBem-Vindo {nomeC}\n\n")
                 return True
             
             return False 
             
     print("Nome ou senha incorretos")
 
-def listaLanches():
-    print("")
+def listaLanches(comida):
+    preco = [6.00, 4.00, 3.29, 3.78]
+    cont = 1
+    for item in comida:
+        for valor in preco:
+            print(f"{cont} ------ {item} ------ {valor}")
+        with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
+            arquivo.write(f"{item} / ")
+    cont += 1
+    linha()
+    opc = input("Digite o item de sua escolha: ")
+    return opc
 
 
 #TITULO DO NEGOCIO
@@ -101,7 +111,7 @@ while True:
     elif digito == "2":
         #LOGIN DO USUARIO
         if login():
-            listaLanches()
+            escolha = listaLanches(["PASTEL", "COXINHA", "GUARÁNA", "COCA-COLA"])
 
     elif digito == "3":
         print("Programa Encerrado")
