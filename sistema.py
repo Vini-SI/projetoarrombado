@@ -22,7 +22,7 @@ def cadastroUser(cont):
         with open("Cadastrados.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(f"{nomeC.strip()} / {idade} / {cont}\n")
 
-        print(f"nome: {nomeC}, idade: {idade}, id: {cont}")
+        print(f"nome: {nomeC}, idade: {idade}, ID: {cont}")
         sleep(1)
         print(f"Cliente Cadastrado com Sucesso!")
         sleep(1.5)
@@ -30,7 +30,7 @@ def cadastroUser(cont):
 
 def buscar():
     print("-" * 15, "Buscar cliente", "-" * 15)
-    idB = input("Digite o id que voce quer procurar: ")
+    idB = input("Digite o ID que voce quer procurar: ")
     
     encontrar = False
 
@@ -43,7 +43,8 @@ def buscar():
             idade = dados[1].strip()
 
             if idB == id:
-                print(f"\nO usuario com nome {nome} com o id {id} e idade {idade} foi encontrado!")
+                print(f"\nO usuario com nome {nome} com o id {id} e idade {idade} foi encontrado!\n")
+                sleep(2)
                 encontrar = True
                 break
 
@@ -52,9 +53,38 @@ def buscar():
         sleep(1.5)
 
 
-def lerArquivo(nome):
-    with open(nome, "r", encoding="utf-8") as arquivo:
-        print(arquivo.read())
+def excluirC():
+    print("-" * 15, "Excluir Cadastros", "-" * 15)
+    idE = input("Digite o id que você quer excluir: ")
+
+    encontrar = False
+
+    clientesR = []
+
+    with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
+        for user in arquivo:
+            dados = user.strip().split("/")
+
+            id = dados[2].strip()
+
+            if idE != id:
+                clientesR.append(dados)
+            else:
+                encontrar = True
+                print(f"Usuário com o id {id} excluido com sucesso!")
+                sleep(2)
+                
+    with open("Cadastrados.txt", "w", encoding="utf-8") as arquivo:
+        for usuario in clientesR:
+            dado = usuario
+            arquivo.write(f"{dado[0]}, {dado[1]}, {dado[2]}\n")
+
+
+    if encontrar == False:
+        print("Nenhum ID encontrado")
+        sleep(1.5)
+    
+
 
 produtos = []
 cont2 = 1
@@ -99,26 +129,29 @@ def buscarProduto ():
 
 
 # TITULO DO NEGOCIO
-painel("               SISTEMA DE GERENCIAMENTO           ")
+painel("       SISTEMA DE GERENCIAMENTO           ")
 
 # CODIGO QUE TA RODANDO
 while True:
     digito = menu(["Gerenciar Clientes", "Gerenciar Produtos", "Gerenciar Vendas", "Sair"])
     if digito == "1":
         while True:
-            escolha = menu(["CADASTRAR", "BUSCAR", "SAIR"])
+            escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "SAIR"])
             if escolha == "1":
                 cadastroUser(cont1)
+                cont1 += 1
             elif escolha == "2":
                 buscar()
             elif escolha == "3":
-                print("Voltando")
+                excluirC()
+            elif escolha == "4":
+                print("Voltando...")
                 sleep(1.5)
                 break
 
     elif digito == "2":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Sair"])
             if opc == "1":
                 cadastroProduto(cont2)
             elif opc == "2":
